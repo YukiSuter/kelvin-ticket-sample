@@ -27,20 +27,32 @@ CONCERT_REPERTOIRE = [ # List of repetoire for the concert(s). If the repetoire 
 ]
 
 CONCERT_LIST = [ # {'soldOut': False, 'date': 'CONCERT DATE', 'standardTicketID': 'STANDARD STRIPE PRICE ID', 'concessionTicketID': 'CONC. STRIPE PRICE ID' }, ### NOTE: Make sure the price IDs are different for the different concerts. Speak to the treasurer about this.
-    {'soldOut': False, 'date': '4rd March 2023', 'standardTicketID': 'price_1MlGWDDysBLU7VPvvQNq2Qia', 'concessionTicketID': 'price_1MlK92DysBLU7VPvinYZrGB8' },
-    {'soldOut': True, 'date': '5th March 2023', 'standardTicketID': 'price_1MlGWDDysBLU7VPvvQNq2Qia', 'concessionTicketID': 'price_1MlK92DysBLU7VPvinYZrGB8' },
+    {'soldOut': False, 'date': '4rd March 2023', 'standardTicketID': 'price_1MlGWDDysBLU7VPvvQNq2Qia', 'concessionTicketID': 'price_1MlK92DysBLU7VPvinYZrGB8', 'sheetsLink': ''},
+    {'soldOut': True, 'date': '5th March 2023', 'standardTicketID': 'price_1MlGWDDysBLU7VPvvQNq2Qia', 'concessionTicketID': 'price_1MlK92DysBLU7VPvinYZrGB8', 'sheetsLink': ''},
 ]
 
 # CONCERT SETTINGS END HERE DO NOT CHANGE ANYTHING BELOW UNLESS CONFIDENT ######
 
+
 import os
-import kelvin_secrets
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
+
+
+from dotenv import load_dotenv
+
+dotenv_file = os.path.join(BASE_DIR, ".env")
+load_dotenv(dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = kelvin_secrets.SECRET_KEY
-STRIPE_SECRET_KEY = kelvin_secrets.STRIPE_SECRET_KEY
-STRIPE_PUBLIC_SECRET = kelvin_secrets.STRIPE_PUBLIC_SECRET
-STRIPE_ENDPOINT_SECRET = kelvin_secrets.STRIPE_ENDPOINT_SECRET
+SECRET_KEY = os.environ['SECRET_KEY']
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+STRIPE_PUBLIC_SECRET = os.environ['STRIPE_PUBLIC_SECRET']
+STRIPE_ENDPOINT_SECRET = os.environ['STRIPE_ENDPOINT_SECRET']
+
+TICKETS_PASSWORD = os.environ['tickets_password']
 
 # STRIPE SETTINGS ######
 REDIRECT_DOMAIN = 'http://yukisuter.pythonanywhere.com'
@@ -48,10 +60,7 @@ REDIRECT_DOMAIN = 'http://yukisuter.pythonanywhere.com'
 
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -69,6 +78,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.kelvin-ensemble.co.uk', 'yukisuter.pythonanywher
 INSTALLED_APPS = [
     'kelvin',
     'website',
+    'tasks',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -119,7 +129,8 @@ SETTINGS_EXPORT = [
     'CONCERT_LIST',
 
     'STRIPE_SECRET_KEY',
-    'REDIRECT_DOMAIN'
+    'REDIRECT_DOMAIN',
+    'TICKETS_PASSWORD'
 ]
 
 
