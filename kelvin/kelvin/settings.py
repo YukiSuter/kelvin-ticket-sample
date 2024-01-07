@@ -55,8 +55,8 @@ STRIPE_ENDPOINT_SECRET = os.environ['STRIPE_ENDPOINT_SECRET']
 TICKETS_PASSWORD = os.environ['tickets_password']
 
 # STRIPE SETTINGS ######
-REDIRECT_DOMAIN = 'http://yukisuter.pythonanywhere.com'
-# REDIRECT_DOMAIN = 'http://127.0.0.1:8000'
+# REDIRECT_DOMAIN = 'http://yukisuter.pythonanywhere.com'
+REDIRECT_DOMAIN = 'http://127.0.0.1:8000'
 
 
 
@@ -88,6 +88,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'constance',
 ]
 
 MIDDLEWARE = [
@@ -209,4 +211,40 @@ LOGGING = {
             'propagate': True,
         },
     },
+}
+
+CONSTANCE_ADDITIONAL_FIELDS = {
+    'concert_status_select': ['django.forms.fields.ChoiceField', {
+        'widget': 'django.forms.Select',
+        'choices': ((0, "No Concert"), (1, "Upcoming no dates"), (2, "Upcoming w/ dates"), (3, "On Sale"), (4, "Sold Out"), (5, "Over"))
+    }],
+}
+
+CONSTANCE_CONFIG = {
+    # Concert Config
+    'CONCERT_NAME': ('Kelvin Concert', 'The name of the concert', 'Kelvin C', str),
+    'CONCERT_STATUS': (0, 'Concert status', 'concert_status_select', int),
+    'CONCERT_CUSTOMTITLE': ("Title", 'The title for when 5 is set above', "Title", str),
+    'CONCERT_CUSTOMMESSAGE': ("Message", 'The message for when 5 is set above', "Message", str),
+    'CONCERT_PHOTOS': ("", "The link to photos for the concert. Status must be 3 for this to be shown.", "", str),
+    'CONCERT_REP': ("", "Repetoire for the concert. Separate using ';'", "", str),
+    'CONCERT_THEME': ("", "Theme for the concert, leave blank if no theme.", "", str),
+
+    # Ticket Config
+    # Ticket 1
+    'TICKET1_CATEGORY': ("", "Category for ticket 1"),
+    'TICKET1_LABEL': ("", "Label for ticket 1", "", str),
+    'TICKET1_ID': ("", "price_id for ticket 1", "", str),
+
+}
+
+
+CONSTANCE_CONFIG_FIELDSETS = {
+    'Concert Configuration': {
+        'fields': ('CONCERT_NAME', 'CONCERT_STATUS', 'CONCERT_CUSTOMTITLE', 'CONCERT_CUSTOMMESSAGE', 'CONCERT_PHOTOS', 'CONCERT_REP', 'CONCERT_THEME'),
+        'collapse': False
+    },
+    'Ticket 1 Options': {
+        'fields': ('TICKET1_LABEL', 'TICKET1_ID')
+    }
 }
